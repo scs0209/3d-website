@@ -8,6 +8,7 @@ import {
   whiteImg,
   yellowImg,
 } from "@/utils";
+import { ModelType } from "@/utils/types";
 
 export const navLists = ["Store", "Mac", "iPhone", "Support"];
 
@@ -46,7 +47,7 @@ export const highlightsSlides = [
   },
 ];
 
-export const models = [
+export const models: ModelType[] = [
   {
     id: 1,
     title: "iPhone 15 Pro in Natural Titanium",

@@ -17,13 +17,10 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    // 초기 렌더링 시 비디오 소스를 설정합니다.
     handleVideoSrcSet();
 
-    // resize 이벤트 리스너를 추가합니다.
     window.addEventListener("resize", handleVideoSrcSet);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너를 제거합니다.
     return () => {
       window.removeEventListener("resize", handleVideoSrcSet);
     };
