@@ -1,15 +1,12 @@
 "use client";
 
 import { heroVideo, smallHeroVideo } from "@/utils";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Hero = () => {
-  const [videoSrc, setVideoSrc] = useState(
-    window.innerWidth < 760 ? smallHeroVideo : heroVideo
-  );
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
 
   const handleVideoSrcSet = () => {
     if (window.innerWidth < 760) {
@@ -20,17 +17,28 @@ const Hero = () => {
   };
 
   useEffect(() => {
+    // 초기 렌더링 시 비디오 소스를 설정합니다.
+    handleVideoSrcSet();
+
+    // resize 이벤트 리스너를 추가합니다.
     window.addEventListener("resize", handleVideoSrcSet);
 
+    // 컴포넌트 언마운트 시 이벤트 리스너를 제거합니다.
     return () => {
       window.removeEventListener("resize", handleVideoSrcSet);
     };
   });
 
-  useGSAP(() => {
-    gsap.to("#hero", { opacity: 1, delay: 1.5 });
-    gsap.to("#cta", { opacity: 1, y: -50, delay: 2.5 });
-  });
+  useEffect(() => {
+    if (videoSrc) {
+      gsap.to("#hero", { opacity: 1, delay: 1.5 });
+      gsap.to("#cta", { opacity: 1, y: -50, delay: 2.5 });
+    }
+  }, [videoSrc]);
+
+  if (!videoSrc) {
+    return null;
+  }
 
   return (
     <section className="w-full nav-height bg-black">
