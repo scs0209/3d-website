@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Hero = () => {
-  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined);
 
   const handleVideoSrcSet = () => {
     if (window.innerWidth < 760) {
@@ -32,10 +32,6 @@ const Hero = () => {
       gsap.to("#cta", { opacity: 1, y: -50, delay: 2.5 });
     }
   }, [videoSrc]);
-
-  if (!videoSrc) {
-    return null;
-  }
 
   return (
     <section className="w-full nav-height bg-black">

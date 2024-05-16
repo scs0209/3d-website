@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import { TimelineMax } from "gsap";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type AnimateWithGsapTimeLineProps = {
   timeline: TimelineMax;
@@ -44,4 +48,20 @@ export const animateWithGsapTimeLine = ({
     },
     "<"
   );
+};
+
+export const animateWithGsap = (
+  target: any,
+  animationProps?: any,
+  scrollProps?: any
+) => {
+  gsap.to(target, {
+    ...animationProps,
+    scrollTrigger: {
+      trigger: target,
+      toggleActions: "restart reverse restart reverse",
+      start: "top 85%",
+      ...scrollProps,
+    },
+  });
 };
