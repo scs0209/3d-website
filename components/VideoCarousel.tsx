@@ -3,13 +3,25 @@ import { highlightsSlides } from "@/constants";
 import { pauseImg, playImg, replayImg } from "@/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
+type VideoStateType = {
+  isEnd: boolean;
+  startPlay: boolean;
+  videoId: number;
+  isLastVideo: boolean;
+  isPlaying: boolean;
+};
 
 const VideoCarousel = () => {
   const videoRef = useRef<any[]>([]);
   const videoSpanRef = useRef<any[]>([]);
   const videoDivRef = useRef<any[]>([]);
 
-  const [video, setVideo] = useState({
+  // video and indicator
+  const [video, setVideo] = useState<VideoStateType>({
     isEnd: false,
     startPlay: false,
     videoId: 0,
@@ -20,6 +32,8 @@ const VideoCarousel = () => {
   const [loadedData, setLoadedData] = useState<any[]>([]);
 
   const { isEnd, isLastVideo, startPlay, videoId, isPlaying } = video;
+
+  console.log(loadedData);
 
   useGSAP(() => {
     gsap.to("#slider", {
@@ -42,16 +56,6 @@ const VideoCarousel = () => {
       },
     });
   }, [isEnd, videoId]);
-
-  useEffect(() => {
-    if (loadedData.length > 3) {
-      if (!isPlaying) {
-        videoRef.current[videoId].pause();
-      } else {
-        startPlay && videoRef.current[videoId].play();
-      }
-    }
-  }, [startPlay, videoId, isPlaying, loadedData]);
 
   useEffect(() => {
     let currentProgress = 0;
@@ -113,6 +117,14 @@ const VideoCarousel = () => {
       }
     }
   }, [videoId, startPlay]);
+
+  useEffect(() => {
+    if (!isPlaying) {
+      videoRef.current[videoId].pause();
+    } else if (isPlaying) {
+      startPlay && videoRef.current[videoId].play();
+    }
+  }, [startPlay, videoId, isPlaying, loadedData]);
 
   const handleProcess = (type: string, i?: number) => {
     switch (type) {
@@ -180,7 +192,7 @@ const VideoCarousel = () => {
               </div>
 
               <div className="absolute top-12 left-[5%] z-10">
-                {list.textLists.map((text, i) => (
+                {list.textLists.map((text: string, i) => (
                   <p key={text} className="md:text-2xl text-xl font-medium">
                     {text}
                   </p>
@@ -211,7 +223,7 @@ const VideoCarousel = () => {
           ))}
         </div>
 
-        <button className="control-btn">
+        <button className="control-btn relative">
           <img
             src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
             alt={isLastVideo ? "replay" : !isPlaying ? "play" : "pause"}

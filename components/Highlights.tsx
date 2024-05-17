@@ -20,7 +20,7 @@ const Highlights = () => {
       id="highlights"
       className="w-screen overflow-hidden common-padding h-full bg-zinc"
     >
-      <div className="screen-max-width">
+      <div className="screen-max-width relative z-10">
         <div className="mb-12 w-full items-end md:flex justify-between">
           <h1 id="title" className="section-heading">
             Get the highlights.
