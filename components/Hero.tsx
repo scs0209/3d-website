@@ -34,7 +34,7 @@ const Hero = () => {
   }, [videoSrc]);
 
   return (
-    <section className="w-full nav-height bg-black">
+    <section data-cy="hero" className="w-full nav-height bg-black">
       <div className="h-5/6 w-full flex-center flex-col">
         <p id="hero" className="hero-title">
           iPhones 15 Pro
